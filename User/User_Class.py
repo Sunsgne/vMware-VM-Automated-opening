@@ -11,14 +11,17 @@
 '''
 
 from models import *
+
+from Dashboard.models import user
 from Mianbao.websettings import websetting
 from django.db.models import Q
 
-import md5
+from hashlib import md5
 import time
 import string
 from random import choice
 
+from User.models import group, department, permission
 
 
 class User:
@@ -131,7 +134,7 @@ class User:
                 
             return True
 
-        except Exception,e:
+        except Exception as e:
             return False
 
     def UserNum(self):
@@ -203,7 +206,7 @@ class Group:
                 for x in group_pers:
                     permission.objects.get(id=int(x)).permission_group.add(group.objects.get(id=self.__gid))
             return True
-        except Exception,e:
+        except Exception as e:
             return False
     
     def GroupNum(self):
@@ -240,7 +243,7 @@ class Permission():
         id_list = list()
         id_lists = permission.objects.filter().values_list('id')
         [ id_list.append(x[0]) for x in id_lists if len(x) == 1 ]
-        print id_list,'id_list'
+        print(id_list,'id_list')
         return id_list
     
 class Department():
